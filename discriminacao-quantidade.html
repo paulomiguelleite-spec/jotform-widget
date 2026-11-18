@@ -415,4 +415,37 @@ function resize() {
 
 globalInput.addEventListener("input", validate);
 
-addButton.
+addButton.addEventListener("click", () => {
+    createRow();
+    validate();
+});
+
+//
+// IMPORTANTE:
+// Criamos imediatamente a primeira linha.
+// Não dependemos do evento "ready" do Jotform.
+//
+createRow();
+validate();
+
+if (window.JFCustomWidget) {
+
+    JFCustomWidget.subscribe("ready", function() {
+        resize();
+    });
+
+    JFCustomWidget.subscribe("submit", function() {
+
+        const result = validate();
+
+        JFCustomWidget.sendSubmit({
+            valid: result.valid,
+            value: getValue()
+        });
+
+    });
+}
+</script>
+
+</body>
+</html>
